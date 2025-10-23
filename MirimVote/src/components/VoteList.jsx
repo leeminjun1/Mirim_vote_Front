@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import AddVote from './AddVote'
 
 const Container = styled.div`
     margin: 20px;
@@ -61,6 +62,10 @@ const Box = styled.div`
     padding: 8px;
 `
 
+const ViewVote = styled.div`
+    display: flex;
+`
+
 export default function VoteList({ list }) {
     const now = new Date('2025-07-31T09:30:00'); // 테스트용 현재 시간;
     // console.log(list);
@@ -94,7 +99,7 @@ export default function VoteList({ list }) {
                         <Info>{vote.type === "class" ? `${vote.year}학년도 ${vote.grade}학년 ${vote.class}반` : `${vote.year}학년도`}</Info>
                         <Time>{isStarted ? (isFinished ? `종료 : ${new Date(vote.vote_end).toLocaleString()}` : `남은 시간 : ${Math.floor(vote_time / 60)}시간 ${vote_time % 60}분`) : `시작 예정 : ${vote_time}`}</Time>
                     </Box>
-                    <VoteButton style={button_style} onClick={() => { location.href = isFinished? `/vote/result?${url_parameters}` : `/vote/${vote.type}-president?${url_parameters}` }}>{button_text}</VoteButton>
+                    <VoteButton style={button_style} onClick={() => { location.href = isFinished ? `/vote/result?${url_parameters}` : `/vote/${vote.type}-president?${url_parameters}` }}>{button_text}</VoteButton>
                 </VoteCard>
             );
         });
@@ -103,7 +108,10 @@ export default function VoteList({ list }) {
     return (
         <Container>
             <Label>진행 및 예정된 선거</Label>
-            {renderVotes(false)}
+            <ViewVote>
+                {renderVotes(false)}
+                <AddVote />
+            </ViewVote>
             <Label>종료된 선거</Label>
             {renderVotes(true)}
         </Container>
